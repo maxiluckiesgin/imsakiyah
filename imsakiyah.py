@@ -83,9 +83,11 @@ def generate(lat, lon, startdate, days):
         e.begin = wkt.strftime('%Y-%m-%d %H:%M:%S')
         e.end = (wkt+timedelta(seconds=5)).strftime('%Y-%m-%d %H:%M:%S')
         c.events.add(e)
+
+    return c
         
 
-
+def write_to_file(c,lat,lon):
     with open('jadwal_imsakiyah_%s_%s.ics' % (lat, lon), 'w') as f:
         f.write(str(c))
 
@@ -103,4 +105,5 @@ if __name__ == "__main__":
                         help='Periode. Default 30 days')
     args = parser.parse_args()
     
-    generate(args.lat, args.lon, args.date, args.days)
+    cal = generate(args.lat, args.lon, args.date, args.days)
+    write_to_file(cal,args.lat,args.lon)
